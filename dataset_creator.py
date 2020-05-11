@@ -85,40 +85,55 @@ def data_augment():
     import matplotlib.pyplot as plt
     import os
     import cropping
-
-    if not os.path.exists("semantic_drone_dataset/original_images/train/train_aug"):
-        os.makedirs("semantic_drone_dataset/original_images/train/train_aug")
-    if not os.path.exists("semantic_drone_dataset/label_images_semantic/train/train_aug"):
-        os.makedirs("semantic_drone_dataset/label_images_semantic/train/train_aug")
+    import data_aug_photometric as aug
+    import data_aug_geometric as aug2
 
     # r=root, d=directories, f = files
+    img_list = []
     for r, d, f in sorted(os.walk("semantic_drone_dataset/original_images/train")):
         for i in f:
             if '.jpg' in i:
                 #do patch splitting
                 #resize
                 image = Image.open(os.path.join(r, i))
-                imgres = image.resize((3808,3808))
-                img_cropped = cropping.crop_image(imgres,224,3808,3808)
+                #imgres = image.resize((3808,3808))
+                img_list.append(image)
+                
+    aug.data_aug_photometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train")
+    aug2.data_aug_geometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train")
+    for r, d, f in sorted(os.walk("semantic_drone_dataset/original_images/train")):
+        for i in f:
+            if '.jpg' in i:
+                #do patch splitting
+                image = Image.open(os.path.join(r, i))
+                img_cropped = cropping.crop_image(imgres,500,6000,4000)
                 count = 0
                 for k in img_cropped:
-                    percorso = "semantic_drone_dataset/original_images/train/train_aug/"
+                    percorso = "semantic_drone_dataset/original_images/train/"
                     percorso = percorso + str(os.path.splitext(i)[0])
                     percorso = percorso + "_"
                     percorso = percorso + str(count)
                     percorso = percorso + ".jpg"
                     k.save(percorso, 'JPEG')
                     count += 1
-
+    seg_list = []
     for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/train")):
         for j in c:
             if '.png' in j:
                 segm = Image.open(os.path.join(a, j))
-                segmres = segm.resize((3808, 3808))
-                segm_cropped = cropping.crop_image(segmres, 224, 3808, 3808)
+                #segmres = segm.resize((3808, 3808))
+                seg_list.append(segm)
+    aug.seg_aug_photometric(seg_list,'.png','semantic_drone_dataset/label_images_semantic/train')
+    aug2.data_aug_geometric(seg_list,'.png','semantic_drone_dataset/label_images_semantic/train')
+    for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/train")):
+        for j in c:
+            if '.png' in j:
+                segm = Image.open(os.path.join(a, j))
+                #segmres = segm.resize((3808, 3808))
+                segm_cropped = cropping.crop_image(segmres, 500, 6000, 4000)
                 count = 0
                 for l in segm_cropped:
-                    percorso2 = "semantic_drone_dataset/label_images_semantic/train/train_aug/"
+                    percorso2 = "semantic_drone_dataset/label_images_semantic/train/"
                     percorso2 = percorso2 + str(os.path.splitext(j)[0])
                     percorso2 = percorso2 + "_"
                     percorso2 = percorso2 + str(count)

@@ -1,3 +1,9 @@
+from tqdm import tqdm
+import matplotlib.pyplot as plt
+from keras.preprocessing.image import ImageDataGenerator 
+import numpy as np
+from PIL import Image
+
 def data_aug_photometric(list_img, extension_file, destination_path):
 
     k = 1
@@ -20,3 +26,9 @@ def data_aug_photometric(list_img, extension_file, destination_path):
 
         k = k+1
 
+def seg_aug_photometric(list_img, extension_file, destination_path):
+    k=1
+    for img in tqdm(list_img):
+        for i in range(3):
+            img.save(destination_path+"/file_"+str(k)+"_brightnessed_"+str(i)+extension_file,'PNG')
+        k=k+1
