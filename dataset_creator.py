@@ -82,9 +82,9 @@ def data_augment():
     import cv2
     import matplotlib.pyplot as plt
     import os
-    import cropping
-    import data_aug_photometric as aug
-    import data_aug_geometric as aug2
+    import lib.cropping
+    import lib.data_aug_photometric as aug
+    import lib.data_aug_geometric as aug2
 
     # r=root, d=directories, f = files
     img_list = []
