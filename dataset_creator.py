@@ -77,8 +77,6 @@ def validation_split():
 
 def data_augment():
     # Data augmentation
-    import patchify
-    from library_seg.library_seg.keras_segmentation.data_utils import augmentation
     from PIL import Image
     import numpy as np
     import cv2
@@ -99,8 +97,8 @@ def data_augment():
                 #imgres = image.resize((3808,3808))
                 img_list.append(image)
                 
-    aug.data_aug_photometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train")
-    aug2.data_aug_geometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train")
+    aug.data_aug_photometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train/train_bright")
+    aug2.data_aug_geometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train/train_")
     for r, d, f in sorted(os.walk("semantic_drone_dataset/original_images/train")):
         for i in f:
             if '.jpg' in i:

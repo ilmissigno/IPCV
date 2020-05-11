@@ -1,3 +1,10 @@
+from tqdm import tqdm
+import matplotlib.pyplot as plt
+from keras.preprocessing.image import ImageDataGenerator
+import keras.preprocessing.image as ks 
+import numpy as np
+from PIL import Image
+
 def data_aug_geometric(list_img, extension_file, destination_path):
         
     k = 1
@@ -7,9 +14,9 @@ def data_aug_geometric(list_img, extension_file, destination_path):
         #TRASFORMAZIONI DI FLIP ORIZZONTALE
         
         # convert to numpy array
-        data = img_to_array(img)
+        data = ks.img_to_array(img)
         # expand dimension to one sample
-        samples = expand_dims(data, 0)
+        samples = np.expand_dims(data, 0)
         # create image data augmentation generator
         datagen = ImageDataGenerator(horizontal_flip=True)
         # prepare iterator

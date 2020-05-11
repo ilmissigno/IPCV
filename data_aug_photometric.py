@@ -1,6 +1,7 @@
 from tqdm import tqdm
 import matplotlib.pyplot as plt
-from keras.preprocessing.image import ImageDataGenerator 
+from keras.preprocessing.image import ImageDataGenerator
+import keras.preprocessing.image as ks 
 import numpy as np
 from PIL import Image
 
@@ -11,9 +12,9 @@ def data_aug_photometric(list_img, extension_file, destination_path):
     for img in tqdm(list_img) :     
 
         # convert to numpy array
-        data = img_to_array(img)
+        data = ks.img_to_array(img)
         # expand dimension to one sample
-        samples = expand_dims(data, 0)
+        samples = np.expand_dims(data, 0)
         # create image data augmentation generator
         datagen = ImageDataGenerator(brightness_range=[0.2,1.0])
         # prepare iterator
