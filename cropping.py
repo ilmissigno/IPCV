@@ -1,4 +1,7 @@
 def crop_image(img, crop_size, size_x, size_y):
+
+    pbar = tqdm(total=((size_x/crop_size)*(size_y/crop_size)))
+                
     x = 0
     y = 0
     z = crop_size
@@ -20,4 +23,9 @@ def crop_image(img, crop_size, size_x, size_y):
         else:
             x = x + crop_size
             z = z + crop_size
+    
+        pbar.update(1)    
+    
+    pbar.close()
+    
     return img_cropped
