@@ -97,8 +97,8 @@ def data_augment():
                 #imgres = image.resize((3808,3808))
                 img_list.append(image)
                 
-    aug.data_aug_photometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train/train_bright")
-    aug2.data_aug_geometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train/train_")
+    aug.data_aug_photometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train/train")
+    aug2.data_aug_geometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train/train")
     for r, d, f in sorted(os.walk("semantic_drone_dataset/original_images/train")):
         for i in f:
             if '.jpg' in i:
