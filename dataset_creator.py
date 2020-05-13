@@ -82,7 +82,7 @@ def data_augment():
     import cv2
     import matplotlib.pyplot as plt
     import os
-    import lib.cropping
+    import lib.cropping as cropping
     import lib.data_aug_photometric as aug
     import lib.data_aug_geometric as aug2
 
