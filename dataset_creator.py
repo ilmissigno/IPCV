@@ -116,7 +116,7 @@ def data_augment():
                 img_cropped = cropping.crop_image(image,1000,6000,4000)
                 count = 0
                 for k in img_cropped:
-                    percorso = "semantic_drone_dataset/original_images/train/train_crop"
+                    percorso = "semantic_drone_dataset/original_images/train/train_crop/"
                     percorso = percorso + str(os.path.splitext(i)[0])
                     percorso = percorso + "_"
                     percorso = percorso + str(count)
@@ -142,7 +142,7 @@ def data_augment():
                 segm_cropped = cropping.crop_image(segm, 1000, 6000, 4000)
                 count = 0
                 for l in segm_cropped:
-                    percorso2 = "semantic_drone_dataset/label_images_semantic/train/train_crop"
+                    percorso2 = "semantic_drone_dataset/label_images_semantic/train/train_crop/"
                     percorso2 = percorso2 + str(os.path.splitext(j)[0])
                     percorso2 = percorso2 + "_"
                     percorso2 = percorso2 + str(count)
