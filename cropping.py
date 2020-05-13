@@ -1,3 +1,5 @@
+from tqdm import tqdm
+
 def crop_image(img, crop_size, size_x, size_y):
 
     pbar = tqdm(total=((size_x/crop_size)*(size_y/crop_size)))
