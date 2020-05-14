@@ -2,10 +2,10 @@ import os
 
 
 def split_dataset(N_train, N_validation, N_test):
+    original = "semantic_drone_dataset/original_images/"
+    labels = "semantic_drone_dataset/label_images_semantic/"
     if ((N_train+N_validation+N_test != 400)):
         print("Error, insert correct numbers")
-        original = "semantic_drone_dataset/original_images/"
-        labels = "semantic_drone_dataset/label_images_semantic/"
         if not os.path.exists(original+"train"):
             os.makedirs(original+"train")
         if not os.path.exists(original+"validation"):
@@ -13,8 +13,6 @@ def split_dataset(N_train, N_validation, N_test):
         if not os.path.exists(original+"test"):
             os.makedirs(original+"test")
     
-    original = "semantic_drone_dataset/original_images/"
-    labels = "semantic_drone_dataset/label_images_semantic/"
     count = 0
     for path in sorted(os.listdir(original)):
         if os.path.isfile(os.path.join(original, path)):
