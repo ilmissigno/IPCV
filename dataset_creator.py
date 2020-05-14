@@ -91,8 +91,8 @@ def data_augment():
     import lib.data_aug_photometric as aug
     import lib.data_aug_geometric as aug2
 
-    #original = "semantic_drone_dataset/original_images/train/"
-    #labels = "semantic_drone_dataset/label_images_semantic/train/"
+    original = "semantic_drone_dataset/original_images/train/"
+    labels = "semantic_drone_dataset/label_images_semantic/train/"
     if not os.path.exists(original + "train_crop"):
         os.makedirs(original + "train_crop")
     if not os.path.exists(labels + "train_crop"):
