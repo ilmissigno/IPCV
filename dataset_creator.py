@@ -17,7 +17,7 @@ def train_test_val(train_dim,val_dim,test_dim):
                 os.rename(os.path.join(original, path), os.path.join(original + "train", path))
             elif (count>train_dim and count<=(train_dim+val_dim)):
                 os.rename(os.path.join(original, path), os.path.join(original + "validation", path))
-            else
+            else:
                 os.rename(os.path.join(original, path), os.path.join(original + "test", path))
             count += 1
             if count == 400:
@@ -39,7 +39,7 @@ def train_test_val(train_dim,val_dim,test_dim):
                 os.rename(os.path.join(labels, path), os.path.join(labels + "train", path))
             elif (count>train_dim and count<=(train_dim+val_dim)):
                 os.rename(os.path.join(labels, path), os.path.join(labels + "validation", path))
-            else
+            else:
                 os.rename(os.path.join(labels, path), os.path.join(labels + "test", path))
             count += 1
             if count == 400:
