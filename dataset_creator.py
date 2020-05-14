@@ -1,6 +1,6 @@
 import os
 
-def train_test_val(train_dim,val_dim,test_dim):
+def train_test_val(train_dim,val_dim,test_dim,tot):
     original = "semantic_drone_dataset/original_images/"
     labels = "semantic_drone_dataset/label_images_semantic/"
     if not os.path.exists(original + "train"):
@@ -20,7 +20,7 @@ def train_test_val(train_dim,val_dim,test_dim):
             else:
                 os.rename(os.path.join(original, path), os.path.join(original + "test", path))
             count += 1
-            if count == 400:
+            if count == tot:
                 break
 
     print(count)
@@ -42,7 +42,7 @@ def train_test_val(train_dim,val_dim,test_dim):
             else:
                 os.rename(os.path.join(labels, path), os.path.join(labels + "test", path))
             count += 1
-            if count == 400:
+            if count == tot:
                 break
 
     print(count)
