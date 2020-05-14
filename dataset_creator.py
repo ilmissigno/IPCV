@@ -12,7 +12,9 @@ def split_dataset(N_train, N_validation, N_test):
             os.makedirs(original+"validation")
         if not os.path.exists(original+"test"):
             os.makedirs(original+"test")
-
+    
+    original = "semantic_drone_dataset/original_images/"
+    labels = "semantic_drone_dataset/label_images_semantic/"
     count = 0
     for path in sorted(os.listdir(original)):
         if os.path.isfile(os.path.join(original, path)):
