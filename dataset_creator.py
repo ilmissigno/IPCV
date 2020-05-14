@@ -1,8 +1,10 @@
 import os
 
 def split_dataset(N_train, N_validation, N_test):
-    global original = "semantic_drone_dataset/original_images/"
-    global labels = "semantic_drone_dataset/label_images_semantic/"
+    global original
+    global labels
+    original = "semantic_drone_dataset/original_images/"
+    labels = "semantic_drone_dataset/label_images_semantic/"
     
     if ((N_train+N_validation+N_test != 400)):
         print("Error, insert correct numbers")
