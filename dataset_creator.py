@@ -113,7 +113,7 @@ def data_augment():
             if '.jpg' in i:
                 #do patch splitting
                 image = Image.open(os.path.join(r, i))
-                img_cropped = cropping.crop_image(image,1000,6000,4000)
+                img_cropped = cropping.crop_image(image,500,6000,4000)
                 count = 0
                 for k in img_cropped:
                     percorso = "semantic_drone_dataset/original_images/train/train_crop/"
@@ -139,7 +139,7 @@ def data_augment():
             if '.png' in j:
                 segm = Image.open(os.path.join(a, j))
                 #segmres = segm.resize((3808, 3808))
-                segm_cropped = cropping.crop_image(segm, 1000, 6000, 4000)
+                segm_cropped = cropping.crop_image(segm, 500, 6000, 4000)
                 count = 0
                 for l in segm_cropped:
                     percorso2 = "semantic_drone_dataset/label_images_semantic/train/train_crop/"
