@@ -1,63 +1,85 @@
 import os
 
-def split_dataset(N_train, N_validation, N_test):
-    global original
-    global labels
+def train_test_val(train_dim,val_dim,test_dim):
     original = "semantic_drone_dataset/original_images/"
     labels = "semantic_drone_dataset/label_images_semantic/"
-    
-    if ((N_train+N_validation+N_test != 400)):
-        print("Error, insert correct numbers")
-        if not os.path.exists(original+"train"):
-            os.makedirs(original+"train")
-        if not os.path.exists(original+"validation"):
-            os.makedirs(original+"validation")
-        if not os.path.exists(original+"test"):
-            os.makedirs(original+"test")
-    
+    if not os.path.exists(original + "train"):
+        os.makedirs(original + "train")
+    if not os.path.exists(original + "validation"):
+        os.makedirs(original + "validation")
+    if not os.path.exists(original + "test"):
+        os.makedirs(original + "test")
+
     count = 0
     for path in sorted(os.listdir(original)):
         if os.path.isfile(os.path.join(original, path)):
-            if count < N_train:
-                os.rename(os.path.join(original, path),
-                          os.path.join(original+"train", path))
-            elif (count > N_train and count <= (N_train+N_validation)):
-                os.rename(os.path.join(original, path),
-                          os.path.join(original+"validation", path))
-        else:
-            os.rename(os.path.join(original, path),
-                      os.path.join(original+"test", path))
-        count += 1
-        if count == 400:
-            break
+            if count <= train_dim:
+                os.rename(os.path.join(original, path), os.path.join(original + "train", path))
+            elif (count>train_dim and count<=(train_dim+val_dim)):
+                os.rename(os.path.join(original, path), os.path.join(original + "validation", path))
+            else
+                os.rename(os.path.join(original, path), os.path.join(original + "test", path))
+            count += 1
+            if count == 400:
+                break
 
     print(count)
 
-    if not os.path.exists(labels+"train"):
-        os.makedirs(labels+"train")
-    if not os.path.exists(labels+"validation"):
-        os.makedirs(labels+"validation")
-    if not os.path.exists(labels+"test"):
-        os.makedirs(labels+"test")
+    if not os.path.exists(labels + "train"):
+        os.makedirs(labels + "train")
+    if not os.path.exists(labels + "validation"):
+        os.makedirs(labels + "validation")
+    if not os.path.exists(labels + "test"):
+        os.makedirs(labels + "test")
 
     count = 0
     for path in sorted(os.listdir(labels)):
-     if os.path.isfile(os.path.join(labels, path)):
-          if count < N_train:
-            os.rename(os.path.join(labels, path),
-                      os.path.join(labels+"train", path))
-          elif (count >= N_train and count <= N_train+N_validation):
-           os.rename(os.path.join(labels, path),
-                     os.path.join(labels+"validation", path))
-          else:
-           os.rename(os.path.join(labels, path),
-                     os.path.join(labels+"test", path))
-          count += 1
-          if count == 400:
-           break
-    
+        if os.path.isfile(os.path.join(labels, path)):
+            if count <= train_dim:
+                os.rename(os.path.join(labels, path), os.path.join(labels + "train", path))
+            elif (count>train_dim and count<=(train_dim+val_dim)):
+                os.rename(os.path.join(labels, path), os.path.join(labels + "validation", path))
+            else
+                os.rename(os.path.join(labels, path), os.path.join(labels + "test", path))
+            count += 1
+            if count == 400:
+                break
+
+    print(count)
+"""
+def validation_split():
+    original = "semantic_drone_dataset/original_images/train/"
+    original_val = "semantic_drone_dataset/original_images/val"
+    labels = "semantic_drone_dataset/label_images_semantic/train/"
+    labels_val = "semantic_drone_dataset/label_images_semantic/val"
+
+    if not os.path.exists(original_val):
+        os.makedirs(original_val)
+    if not os.path.exists(labels_val):
+        os.makedirs(labels_val)
+
+    count = 0
+    for path in sorted(os.listdir(original)):
+        if os.path.isfile(os.path.join(original, path)):
+            if count > 200:
+                os.rename(os.path.join(original, path), os.path.join(original_val, path))
+            count += 1
+            if count == 300:
+                break
+
     print(count)
 
+    count = 0
+    for path in sorted(os.listdir(labels)):
+        if os.path.isfile(os.path.join(labels, path)):
+            if count > 200:
+                os.rename(os.path.join(labels, path), os.path.join(labels_val, path))
+            count += 1
+            if count == 300:
+                break
+
+    print(count)
+"""
 def data_augment():
     # Data augmentation
     from PIL import Image
