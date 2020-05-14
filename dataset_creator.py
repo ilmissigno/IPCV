@@ -1,7 +1,8 @@
 import os
 
-def split_dataset(N_train,N_validation,N_test):
-    if ((N_train+N_validation+N_test!=400)):
+
+def split_dataset(N_train, N_validation, N_test):
+    if ((N_train+N_validation+N_test != 400)):
         print("Error, insert correct numbers")
         original = "semantic_drone_dataset/original_images/"
         labels = "semantic_drone_dataset/label_images_semantic/"
@@ -12,42 +13,48 @@ def split_dataset(N_train,N_validation,N_test):
         if not os.path.exists(original+"test"):
             os.makedirs(original+"test")
 
-  count = 0
-  for path in sorted(os.listdir(original)):
-      if os.path.isfile(os.path.join(original, path)):
-          if count<N_train:
-              os.rename(os.path.join(original,path),os.path.join(original+"train",path))
-          elif (count>N_train and count<=(N_train+N_validation)):
-              os.rename(os.path.join(original,path),os.path.join(original+"validation",path))
-      else:
-          os.rename(os.path.join(original,path),os.path.join(original+"test",path))
-      count += 1
-      if count==400:
-          break
+    count = 0
+    for path in sorted(os.listdir(original)):
+        if os.path.isfile(os.path.join(original, path)):
+            if count < N_train:
+                os.rename(os.path.join(original, path),
+                          os.path.join(original+"train", path))
+            elif (count > N_train and count <= (N_train+N_validation)):
+                os.rename(os.path.join(original, path),
+                          os.path.join(original+"validation", path))
+        else:
+            os.rename(os.path.join(original, path),
+                      os.path.join(original+"test", path))
+        count += 1
+        if count == 400:
+            break
 
-  print(count)
+    print(count)
 
-  if not os.path.exists(labels+"train"):
-    os.makedirs(labels+"train")
-  if not os.path.exists(labels+"validation"):
-   os.makedirs(labels+"validation")
-  if not os.path.exists(labels+"test"):
-   os.makedirs(labels+"test")
+    if not os.path.exists(labels+"train"):
+        os.makedirs(labels+"train")
+    if not os.path.exists(labels+"validation"):
+        os.makedirs(labels+"validation")
+    if not os.path.exists(labels+"test"):
+        os.makedirs(labels+"test")
 
-  count = 0
-  for path in sorted(os.listdir(labels)):
+    count = 0
+    for path in sorted(os.listdir(labels)):
      if os.path.isfile(os.path.join(labels, path)):
-          if count<N_train:
-            os.rename(os.path.join(labels,path),os.path.join(labels+"train",path))
-          elif (count>=N_train and count<=N_train+N_validation):
-           os.rename(os.path.join(labels,path),os.path.join(labels+"validation",path))
+          if count < N_train:
+            os.rename(os.path.join(labels, path),
+                      os.path.join(labels+"train", path))
+          elif (count >= N_train and count <= N_train+N_validation):
+           os.rename(os.path.join(labels, path),
+                     os.path.join(labels+"validation", path))
           else:
-           os.rename(os.path.join(labels,path),os.path.join(labels+"test",path))
+           os.rename(os.path.join(labels, path),
+                     os.path.join(labels+"test", path))
           count += 1
-          if count==400:
+          if count == 400:
            break
-
-  print(count)
+    
+    print(count)
 
 def data_augment():
     # Data augmentation
