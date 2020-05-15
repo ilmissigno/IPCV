@@ -4,7 +4,7 @@ from .data_utils.data_loader import image_segmentation_generator, \
 import glob
 import six
 from keras.callbacks import Callback
-
+import tensorflow as tf
 
 def find_latest_checkpoint(checkpoints_path, fail_safe=True):
 
@@ -74,10 +74,35 @@ class CheckpointsCallback(Callback):
             self.model.save_weights(self.checkpoints_path + "." + str(epoch))
             print("saved ", self.checkpoints_path + "." + str(epoch))
 
+class LearningRateScheduler(Callback):
+  """Learning rate scheduler which sets the learning rate according to schedule.
+
+  Arguments:
+      schedule: a function that takes an epoch index
+          (integer, indexed from 0) and current learning rate
+          as inputs and returns a new learning rate as output (float).
+  """
+
+  def __init__(self, schedule):
+    super(LearningRateScheduler, self).__init__()
+    self.schedule = schedule
+
+  def on_epoch_begin(self, epoch, logs=None):
+    if not hasattr(self.model.optimizer, 'lr'):
+      raise ValueError('Optimizer must have a "lr" attribute.')
+    # Get the current learning rate from model's optimizer.
+    lr = float(tf.keras.backend.get_value(self.model.optimizer.lr))
+    # Call schedule function to get the scheduled learning rate.
+    scheduled_lr = self.schedule(epoch, lr)
+    # Set the value back to the optimizer before this epoch starts
+    tf.keras.backend.set_value(self.model.optimizer.lr, scheduled_lr)
+    print('\nEpoch %05d: Learning rate is %6.4f.' % (epoch, scheduled_lr))
+
 
 def train(model,
           train_images,
           train_annotations,
+          lr_schedule,
           input_height=None,
           input_width=None,
           n_classes=None,
@@ -178,7 +203,8 @@ def train(model,
             n_classes, input_height, input_width, output_height, output_width)
 
     callbacks = [
-        CheckpointsCallback(checkpoints_path)
+        CheckpointsCallback(checkpoints_path),
+        LearningRateScheduler(lr_schedule)
     ]
 
     if not validate:
