@@ -205,20 +205,19 @@ def data_augment_val(crop_size, dim_height, dim_width):
                     percorso = percorso + ".jpg"
                     k.save(percorso, 'JPEG')
                     count += 1
-
-     for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/validation")):
-         for j in c:
-             if '.png' in j:
-                 segm = Image.open(os.path.join(a, j))
-                 # segmres = segm.resize((3808, 3808))
-                 segm_cropped = cropping.crop_image(segm, crop_size, dim_width, dim_height)
-                 count = 0
-                 for l in segm_cropped:
-                     percorso2 = "semantic_drone_dataset/label_images_semantic/validation/val_crop/"
-                     percorso2 = percorso2 + str(os.path.splitext(j)[0])
-                     percorso2 = percorso2 + "_"
-                     percorso2 = percorso2 + str(count)
-                     percorso2 = percorso2 + ".png"
-                     l.save(percorso2, 'PNG')
-                     count += 1
+    for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/validation")):
+        for j in c:
+            if '.png' in j:
+                segm = Image.open(os.path.join(a, j))
+                # segmres = segm.resize((3808, 3808))
+                segm_cropped = cropping.crop_image(segm, crop_size, dim_width, dim_height)
+                count = 0
+                for l in segm_cropped:
+                    percorso2 = "semantic_drone_dataset/label_images_semantic/validation/val_crop/"
+                    percorso2 = percorso2 + str(os.path.splitext(j)[0])
+                    percorso2 = percorso2 + "_"
+                    percorso2 = percorso2 + str(count)
+                    percorso2 = percorso2 + ".png"
+                    l.save(percorso2, 'PNG')
+                    count += 1
 
