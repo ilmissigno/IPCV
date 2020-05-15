@@ -1,6 +1,7 @@
 import os
 
-def train_test_val(train_dim,val_dim,test_dim,tot):
+
+def train_test_val(train_dim, val_dim, test_dim, tot):
     original = "semantic_drone_dataset/original_images/"
     labels = "semantic_drone_dataset/label_images_semantic/"
     if not os.path.exists(original + "train"):
@@ -14,11 +15,14 @@ def train_test_val(train_dim,val_dim,test_dim,tot):
     for path in sorted(os.listdir(original)):
         if os.path.isfile(os.path.join(original, path)):
             if count <= train_dim:
-                os.rename(os.path.join(original, path), os.path.join(original + "train", path))
-            elif (count>train_dim and count<=(train_dim+val_dim)):
-                os.rename(os.path.join(original, path), os.path.join(original + "validation", path))
+                os.rename(os.path.join(original, path),
+                          os.path.join(original + "train", path))
+            elif (count > train_dim and count <= (train_dim+val_dim)):
+                os.rename(os.path.join(original, path),
+                          os.path.join(original + "validation", path))
             else:
-                os.rename(os.path.join(original, path), os.path.join(original + "test", path))
+                os.rename(os.path.join(original, path),
+                          os.path.join(original + "test", path))
             count += 1
             if count == tot:
                 break
@@ -36,16 +40,21 @@ def train_test_val(train_dim,val_dim,test_dim,tot):
     for path in sorted(os.listdir(labels)):
         if os.path.isfile(os.path.join(labels, path)):
             if count <= train_dim:
-                os.rename(os.path.join(labels, path), os.path.join(labels + "train", path))
-            elif (count>train_dim and count<=(train_dim+val_dim)):
-                os.rename(os.path.join(labels, path), os.path.join(labels + "validation", path))
+                os.rename(os.path.join(labels, path),
+                          os.path.join(labels + "train", path))
+            elif (count > train_dim and count <= (train_dim+val_dim)):
+                os.rename(os.path.join(labels, path),
+                          os.path.join(labels + "validation", path))
             else:
-                os.rename(os.path.join(labels, path), os.path.join(labels + "test", path))
+                os.rename(os.path.join(labels, path),
+                          os.path.join(labels + "test", path))
             count += 1
             if count == tot:
                 break
 
     print(count)
+
+
 """
 def validation_split():
     original = "semantic_drone_dataset/original_images/train/"
@@ -62,7 +71,8 @@ def validation_split():
     for path in sorted(os.listdir(original)):
         if os.path.isfile(os.path.join(original, path)):
             if count > 200:
-                os.rename(os.path.join(original, path), os.path.join(original_val, path))
+                os.rename(os.path.join(original, path),
+                          os.path.join(original_val, path))
             count += 1
             if count == 300:
                 break
@@ -73,14 +83,17 @@ def validation_split():
     for path in sorted(os.listdir(labels)):
         if os.path.isfile(os.path.join(labels, path)):
             if count > 200:
-                os.rename(os.path.join(labels, path), os.path.join(labels_val, path))
+                os.rename(os.path.join(labels, path),
+                          os.path.join(labels_val, path))
             count += 1
             if count == 300:
                 break
 
     print(count)
 """
-def data_augment(crop_size,dim_height,dim_width):
+
+
+def data_augment(crop_size, dim_height, dim_width):
     # Data augmentation
     from PIL import Image
     import numpy as np
@@ -104,21 +117,22 @@ def data_augment(crop_size,dim_height,dim_width):
     for r, d, f in sorted(os.walk("semantic_drone_dataset/original_images/train")):
         for i in f:
             if '.jpg' in i:
-                #do patch splitting
-                #resize
+                # do patch splitting
+                # resize
                 image = Image.open(os.path.join(r, i))
-                #imgres = image.resize((3808,3808))
+                # imgres = image.resize((3808,3808))
                 img_list.append(image)
-                
-    #aug.data_aug_photometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train")
-    #aug2.data_aug_geometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train")
+
+    # aug.data_aug_photometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train")
+    # aug2.data_aug_geometric(img_list,'.jpg',"semantic_drone_dataset/original_images/train")
     """
     for r, d, f in sorted(os.walk("semantic_drone_dataset/original_images/train")):
         for i in f:
             if '.jpg' in i:
-                #do patch splitting
+                # do patch splitting
                 image = Image.open(os.path.join(r, i))
-                img_cropped = cropping.crop_image(image,crop_size,dim_width,dim_height)
+                img_cropped = cropping.crop_image(
+                    image, crop_size, dim_width, dim_height)
                 count = 0
                 for k in img_cropped:
                     percorso = "semantic_drone_dataset/original_images/train/train_crop/"
@@ -134,7 +148,7 @@ def data_augment(crop_size,dim_height,dim_width):
         for j in c:
             if '.png' in j:
                 segm = Image.open(os.path.join(a, j))
-                #segmres = segm.resize((3808, 3808))
+                # segmres = segm.resize((3808, 3808))
                 seg_list.append(segm)
     aug.seg_aug_photometric(seg_list,'.png','semantic_drone_dataset/label_images_semantic/train')
     aug2.data_aug_geometric(seg_list,'.png','semantic_drone_dataset/label_images_semantic/train')
@@ -143,8 +157,9 @@ def data_augment(crop_size,dim_height,dim_width):
         for j in c:
             if '.png' in j:
                 segm = Image.open(os.path.join(a, j))
-                #segmres = segm.resize((3808, 3808))
-                segm_cropped = cropping.crop_image(segm, crop_size, dim_width, dim_height)
+                # segmres = segm.resize((3808, 3808))
+                segm_cropped = cropping.crop_image(
+                    segm, crop_size, dim_width, dim_height)
                 count = 0
                 for l in segm_cropped:
                     percorso2 = "semantic_drone_dataset/label_images_semantic/train/train_crop/"
@@ -155,7 +170,8 @@ def data_augment(crop_size,dim_height,dim_width):
                     l.save(percorso2, 'PNG')
                     count += 1
 
-def data_augment_val(crop_size,dim_height,dim_width):
+
+def data_augment_val(crop_size, dim_height, dim_width):
     # Data augmentation
     from PIL import Image
     import numpy as np
@@ -172,13 +188,14 @@ def data_augment_val(crop_size,dim_height,dim_width):
         os.makedirs(original + "val_crop")
     if not os.path.exists(labels + "val_crop"):
         os.makedirs(labels + "val_crop")
-    
+
     for r, d, f in sorted(os.walk("semantic_drone_dataset/original_images/validation")):
         for i in f:
             if '.jpg' in i:
-                #do patch splitting
+                # do patch splitting
                 image = Image.open(os.path.join(r, i))
-                img_cropped = cropping.crop_image(image,crop_size,dim_width,dim_height)
+                img_cropped = cropping.crop_image(
+                    image, crop_size, dim_width, dim_height)
                 count = 0
                 for k in img_cropped:
                     percorso = "semantic_drone_dataset/original_images/validation/val_crop/"
@@ -188,20 +205,20 @@ def data_augment_val(crop_size,dim_height,dim_width):
                     percorso = percorso + ".jpg"
                     k.save(percorso, 'JPEG')
                     count += 1
-    
+
      for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/validation")):
-        for j in c:
-            if '.png' in j:
-                segm = Image.open(os.path.join(a, j))
-                #segmres = segm.resize((3808, 3808))
-                segm_cropped = cropping.crop_image(segm, crop_size, dim_width, dim_height)
-                count = 0
-                for l in segm_cropped:
-                    percorso2 = "semantic_drone_dataset/label_images_semantic/validation/val_crop/"
-                    percorso2 = percorso2 + str(os.path.splitext(j)[0])
-                    percorso2 = percorso2 + "_"
-                    percorso2 = percorso2 + str(count)
-                    percorso2 = percorso2 + ".png"
-                    l.save(percorso2, 'PNG')
-                    count += 1
+         for j in c:
+             if '.png' in j:
+                 segm = Image.open(os.path.join(a, j))
+                 # segmres = segm.resize((3808, 3808))
+                 segm_cropped = cropping.crop_image(segm, crop_size, dim_width, dim_height)
+                 count = 0
+                 for l in segm_cropped:
+                     percorso2 = "semantic_drone_dataset/label_images_semantic/validation/val_crop/"
+                     percorso2 = percorso2 + str(os.path.splitext(j)[0])
+                     percorso2 = percorso2 + "_"
+                     percorso2 = percorso2 + str(count)
+                     percorso2 = percorso2 + ".png"
+                     l.save(percorso2, 'PNG')
+                     count += 1
 
