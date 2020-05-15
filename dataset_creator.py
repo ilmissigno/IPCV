@@ -221,3 +221,53 @@ def data_augment_val(crop_size, dim_height, dim_width):
                     l.save(percorso2, 'PNG')
                     count += 1
 
+def data_augment_test(crop_size, dim_height, dim_width):
+    # Data augmentation
+    from PIL import Image
+    import numpy as np
+    import cv2
+    import matplotlib.pyplot as plt
+    import os
+    import lib.cropping as cropping
+    import lib.data_aug_photometric as aug
+    import lib.data_aug_geometric as aug2
+
+    original = "semantic_drone_dataset/original_images/test/"
+    labels = "semantic_drone_dataset/label_images_semantic/test/"
+    if not os.path.exists(original + "test_crop"):
+        os.makedirs(original + "test_crop")
+    if not os.path.exists(labels + "test_crop"):
+        os.makedirs(labels + "test_crop")
+
+    for r, d, f in sorted(os.walk("semantic_drone_dataset/original_images/test")):
+        for i in f:
+            if '.jpg' in i:
+                # do patch splitting
+                image = Image.open(os.path.join(r, i))
+                img_cropped = cropping.crop_image(
+                    image, crop_size, dim_width, dim_height)
+                count = 0
+                for k in img_cropped:
+                    percorso = "semantic_drone_dataset/original_images/test/test_crop/"
+                    percorso = percorso + str(os.path.splitext(i)[0])
+                    percorso = percorso + "_"
+                    percorso = percorso + str(count)
+                    percorso = percorso + ".jpg"
+                    k.save(percorso, 'JPEG')
+                    count += 1
+    for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/test")):
+        for j in c:
+            if '.png' in j:
+                segm = Image.open(os.path.join(a, j))
+                # segmres = segm.resize((3808, 3808))
+                segm_cropped = cropping.crop_image(segm, crop_size, dim_width, dim_height)
+                count = 0
+                for l in segm_cropped:
+                    percorso2 = "semantic_drone_dataset/label_images_semantic/test/test_crop/"
+                    percorso2 = percorso2 + str(os.path.splitext(j)[0])
+                    percorso2 = percorso2 + "_"
+                    percorso2 = percorso2 + str(count)
+                    percorso2 = percorso2 + ".png"
+                    l.save(percorso2, 'PNG')
+                    count += 1
+
