@@ -5,7 +5,6 @@ import glob
 import six
 from keras.callbacks import Callback
 import tensorflow as tf
-import losses
 
 def find_latest_checkpoint(checkpoints_path, fail_safe=True):
 
@@ -36,11 +35,6 @@ def masked_categorical_crossentropy(gt, pr):
     from keras.losses import categorical_crossentropy
     mask = 1 - gt[:, :, 0]
     return categorical_crossentropy(gt, pr) * mask
-
-
-def dice_loss(gt,pr):
-    import losses
-    return losses.DiceLoss.__call__(gt,pr)
 
 
 class CheckpointsCallback(Callback):
@@ -126,7 +120,7 @@ def train(model,
     if optimizer_name is not None:
 
         if ignore_zero_class:
-            loss_k = losses.bce_dice_loss
+            loss_k = masked_categorical_crossentropy
         else:
             loss_k = 'categorical_crossentropy'
             #loss_k = weighted_categorical_crossentropy
