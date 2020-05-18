@@ -1,4 +1,4 @@
-from library_seg.library_seg.keras_segmentation.data_utils.data_loader import image_segmentation_generator, \
+from lib_1.keras_segmentation.data_utils.data_loader import image_segmentation_generator, \
     verify_segmentation_dataset
 from keras.callbacks import Callback
 
@@ -23,7 +23,11 @@ def train(model,
           steps_per_epoch=512,
           val_steps_per_epoch=512,
           epochs=5,
-          gen_use_multiprocessing=True):
+          gen_use_multiprocessing=True,
+          optimizer_name='adadelta'):
+
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer_name, metrics=['accuracy'])
+
     input_shape = model.input_shape
     output_shape = model.output_shape
     train_gen = image_segmentation_generator(images_path=img_path_train,
