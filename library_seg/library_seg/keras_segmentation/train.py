@@ -180,12 +180,27 @@ def train(model,
     ]
 
     if not validate:
-        model.fit_generator(train_gen, steps_per_epoch,
+        hist=model.fit_generator(train_gen, steps_per_epoch,
                             epochs=epochs, callbacks=callbacks)
+         
     else:
-        model.fit_generator(train_gen,
-                            steps_per_epoch,
-                            validation_data=val_gen,
-                            validation_steps=val_steps_per_epoch,
+        hist=model.fit_generator(train_gen,steps_per_epoch,validation_data=val_gen,validation_steps=val_steps_per_epoch,
                             epochs=epochs, callbacks=callbacks,
                             use_multiprocessing=gen_use_multiprocessing)
+        
+    #grafico
+    plt.plot(hist.history['accuracy'])
+    plt.plot(hist.history['val_accuracy'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'val'], loc='upper left')
+    plt.show()
+    # summarize history for loss
+    plt.plot(hist.history['loss'])
+    plt.plot(hist.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'val'], loc='upper left')
+    plt.show()
