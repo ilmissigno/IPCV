@@ -212,6 +212,6 @@ def image_segmentation_generator(images_path, segs_path, batch_size,
             X.append(get_image_array(im, input_width,
                                      input_height, ordering=IMAGE_ORDERING))
             Y.append(get_segmentation_array(
-                seg, n_classes, output_width, output_height))
+                seg, n_classes, output_width, output_height, no_reshape=True))
 
         yield np.array(X), np.array(Y)
