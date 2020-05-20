@@ -142,6 +142,7 @@ def data_augment(crop_size, dim_height, dim_width):
                     percorso = percorso + ".jpg"
                     k.save(percorso, 'JPEG')
                     count += 1
+                os.remove(os.path.join(original, i))
     """
     seg_list = []
     for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/train")):
@@ -169,7 +170,7 @@ def data_augment(crop_size, dim_height, dim_width):
                     percorso2 = percorso2 + ".png"
                     l.save(percorso2, 'PNG')
                     count += 1
-
+                os.remove(os.path.join(labels, j))
 
 def data_augment_val(crop_size, dim_height, dim_width):
     # Data augmentation
@@ -205,6 +206,8 @@ def data_augment_val(crop_size, dim_height, dim_width):
                     percorso = percorso + ".jpg"
                     k.save(percorso, 'JPEG')
                     count += 1
+                os.remove(os.path.join(original, i))
+                
     for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/validation")):
         for j in c:
             if '.png' in j:
@@ -220,7 +223,8 @@ def data_augment_val(crop_size, dim_height, dim_width):
                     percorso2 = percorso2 + ".png"
                     l.save(percorso2, 'PNG')
                     count += 1
-
+                os.remove(os.path.join(labels, j))
+                
 def data_augment_test(crop_size, dim_height, dim_width):
     # Data augmentation
     from PIL import Image
@@ -234,6 +238,7 @@ def data_augment_test(crop_size, dim_height, dim_width):
 
     original = "semantic_drone_dataset/original_images/test/"
     labels = "semantic_drone_dataset/label_images_semantic/test/"
+    
     if not os.path.exists(original + "test_crop"):
         os.makedirs(original + "test_crop")
     if not os.path.exists(labels + "test_crop"):
@@ -255,6 +260,8 @@ def data_augment_test(crop_size, dim_height, dim_width):
                     percorso = percorso + ".jpg"
                     k.save(percorso, 'JPEG')
                     count += 1
+                os.remove(os.path.join(original, i))
+                
     for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/test")):
         for j in c:
             if '.png' in j:
@@ -270,4 +277,4 @@ def data_augment_test(crop_size, dim_height, dim_width):
                     percorso2 = percorso2 + ".png"
                     l.save(percorso2, 'PNG')
                     count += 1
-
+                os.remove(os.path.join(labels, j))
