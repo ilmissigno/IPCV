@@ -142,7 +142,7 @@ def data_augment(crop_size, dim_height, dim_width):
                     percorso = percorso + ".jpg"
                     k.save(percorso, 'JPEG')
                     count += 1
-                os.remove(os.path.join("/kaggle/working/semantic_drone_dataset/label_images_semantic/train/",i))
+                os.remove(os.path.join("/kaggle/working/semantic_drone_dataset/original_images/train/",i))
     """
     seg_list = []
     for a, b, c in sorted(os.walk("semantic_drone_dataset/label_images_semantic/train")):
@@ -207,7 +207,7 @@ def data_augment_val(crop_size, dim_height, dim_width):
                     percorso = percorso + ".jpg"
                     k.save(percorso, 'JPEG')
                     count += 1
-                os.remove(os.path.join("/kaggle/working/emantic_drone_dataset/label_images_semantic/validation/",i))
+                os.remove(os.path.join("/kaggle/working/emantic_drone_dataset/original_images/validation/",i))
     for a, b, c in sorted(os.walk("/kaggle/working/semantic_drone_dataset/label_images_semantic/validation")):
         for j in c:
             if '.png' in j:
@@ -259,7 +259,7 @@ def data_augment_test(crop_size, dim_height, dim_width):
                     percorso = percorso + ".jpg"
                     k.save(percorso, 'JPEG')
                     count += 1
-                os.remove(os.path.join("/kaggle/working/semantic_drone_dataset/label_images_semantic/test/",i))
+                os.remove(os.path.join("/kaggle/working/semantic_drone_dataset/original_images/test/",i))
     for a, b, c in sorted(os.walk("/kaggle/working/semantic_drone_dataset/label_images_semantic/test")):
         for j in c:
             if '.png' in j:
