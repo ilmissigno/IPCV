@@ -1,5 +1,6 @@
 import os
-
+from PIL import Image
+import matplotlib.pyplot as plt
 
 def train_test_val(train_dim, val_dim, test_dim, tot):
     original = "/kaggle/working/semantic_drone_dataset/original_images/"
@@ -276,3 +277,64 @@ def data_augment_test(crop_size, dim_height, dim_width):
                     l.save(percorso2, 'PNG')
                     count += 1
                 os.remove(os.path.join("/kaggle/working/semantic_drone_dataset/label_images_semantic/test/",j))
+
+def merge_image(img_list, crop_size, size_x, size_y):
+    new_im = Image.new('RGB', (size_x, size_y))
+    k = 0
+    for i in range(0, int(size_y/crop_size)):
+        for j in range(0, int(size_x/crop_size)):
+            new_im.paste(img_list[k], (j*crop_size, i*crop_size))
+            k = k+1
+    return new_im
+
+def unisci_immagine_jpg(directory, nameimg):
+    patched_crop = []
+    crop_names = []
+    for path in sorted(os.listdir(directory)):
+        if os.path.isfile(os.path.join(directory, path)):
+            root_ext = os.path.splitext(path)
+            stringa = root_ext[0].split("_")
+            if stringa[0] == nameimg:
+                crop_names.append(stringa[0])
+                patched_crop.append(stringa[1])
+    results = map(int, patched_crop)
+    results = sorted(results)
+    results = map(str, results)
+    uniti = ",".join("{1}_{0}".format(x, y) for x, y in zip(results, crop_names))
+    finale = []
+    finale = uniti.split(",")
+    finale2 = ",".join(directory+"/{0}.jpg".format(x) for x in finale)
+    finale3 = []
+    finale3 = finale2.split(",")
+    lista_imm = []
+    for i in finale3:
+        lista_imm.append(Image.open(i))
+    immagine = merge_image(lista_imm, 1000, 6000, 4000)
+    return immagine
+
+
+def unisci_immagine_png(directory, nameimg):
+    patched_crop = []
+    crop_names = []
+    for path in sorted(os.listdir(directory)):
+        if os.path.isfile(os.path.join(directory, path)):
+            root_ext = os.path.splitext(path)
+            stringa = root_ext[0].split("_")
+            if stringa[0] == nameimg:
+                crop_names.append(stringa[0])
+                patched_crop.append(stringa[1])
+    results = map(int, patched_crop)
+    results = sorted(results)
+    results = map(str, results)
+    uniti = ",".join("{1}_{0}".format(x, y)
+                     for x, y in zip(results, crop_names))
+    finale = []
+    finale = uniti.split(",")
+    finale2 = ",".join(directory+"/{0}.png".format(x) for x in finale)
+    finale3 = []
+    finale3 = finale2.split(",")
+    lista_imm = []
+    for i in finale3:
+        lista_imm.append(Image.open(i))
+    immagine = merge_image(lista_imm, 1000, 6000, 4000)
+    return immagine
