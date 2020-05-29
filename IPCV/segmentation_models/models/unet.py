@@ -245,7 +245,7 @@ def Unet(
         activation=activation,
         n_upsample_blocks=len(decoder_filters),
         use_batchnorm=decoder_use_batchnorm,
-        dropout=unet_dropout
+        dropout=unet_dropout,
     )
 
     # lock encoder weights for fine-tuning

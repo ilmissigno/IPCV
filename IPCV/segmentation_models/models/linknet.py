@@ -270,7 +270,7 @@ def Linknet(
         activation=activation,
         n_upsample_blocks=len(decoder_filters),
         use_batchnorm=decoder_use_batchnorm,
-        dropout=linknet_dropout
+        dropout=linknet_dropout,
     )
 
     # lock encoder weights for fine-tuning
