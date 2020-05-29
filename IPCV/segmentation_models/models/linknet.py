@@ -139,7 +139,7 @@ def build_linknet(
         classes=1,
         activation='sigmoid',
         use_batchnorm=True,
-        dropout=None
+        dropout=None,
 ):
     input_ = backbone.input
     x = backbone.output
