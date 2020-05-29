@@ -199,7 +199,7 @@ def Linknet(
         decoder_block_type='upsampling',
         decoder_filters=(None, None, None, None, 16),
         decoder_use_batchnorm=True,
-        linknet_dropout=None
+        linknet_dropout=None,
         **kwargs
 ):
     """Linknet_ is a fully convolution neural network for fast image semantic segmentation

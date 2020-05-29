@@ -176,7 +176,7 @@ def Unet(
         decoder_block_type='upsampling',
         decoder_filters=(256, 128, 64, 32, 16),
         decoder_use_batchnorm=True,
-        unet_dropout=None
+        unet_dropout=None,
         **kwargs
 ):
     """ Unet_ is a fully convolution neural network for image semantic segmentation
