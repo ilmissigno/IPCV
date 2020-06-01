@@ -2,6 +2,124 @@ import os
 from PIL import Image
 import matplotlib.pyplot as plt
 
+def split_dataset(dim_train, dim_val, dim_test, seed=None):
+
+    import os
+    import random 
+    import shutil
+    
+    original = "semantic_drone_dataset/original_images/"
+    labels = "semantic_drone_dataset/label_images_semantic/"
+    dataset = "semantic_drone_dataset/"
+    
+    if not os.path.exists(dataset + "original"):
+        os.makedirs(dataset + "original")
+    if not os.path.exists(dataset + "label"):
+        os.makedirs(dataset + "label")
+
+    dataset_orig = "semantic_drone_dataset/original/"
+    dataset_lab = "semantic_drone_dataset/label/"
+        
+    if not os.path.exists(dataset_orig + "train"):
+        os.makedirs(dataset_orig + "train")   
+    if not os.path.exists(dataset_orig + "validation"):
+        os.makedirs(dataset_orig + "validation")
+    if not os.path.exists(dataset_orig + "test"):
+        os.makedirs(dataset_orig + "test")
+
+    if not os.path.exists(dataset_lab + "train"):
+        os.makedirs(dataset_lab + "train")
+    if not os.path.exists(dataset_lab + "validation"):
+        os.makedirs(dataset_lab + "validation")
+    if not os.path.exists(dataset_lab + "test"):
+        os.makedirs(dataset_lab + "test")
+
+    if(seed == None):
+        seed = random.randint(1, 10001)
+        
+    print("Split del dataset con seed = "+ str(seed))
+        
+    count = 0
+    for i in os.listdir(original):
+        if count == dim_train:
+            break
+        random.seed(seed)
+        img_train = random.choice(os.listdir(original))
+        if os.path.splitext(img_train)[0] == os.path.splitext(i)[0]:
+            os.rename(os.path.join(original, str(i)), os.path.join(dataset_orig + "train/" , str(i)))
+            count = count + 1
+            for j in os.listdir(labels):
+                if os.path.splitext(img_train)[0] == os.path.splitext(j)[0]:
+                    os.rename(os.path.join(labels, str(j)), os.path.join(dataset_lab + "train/" , str(j)))
+     
+    count = 0
+    for i in os.listdir(original):
+        if count == dim_val:
+            break
+        random.seed(seed)
+        img_val = random.choice(os.listdir(original))
+        if os.path.splitext(img_val)[0] == os.path.splitext(i)[0]:
+            os.rename(os.path.join(original, str(i)), os.path.join(dataset_orig + "validation/" , str(i)))
+            count = count + 1
+            for j in os.listdir(labels):
+                if os.path.splitext(img_val)[0] == os.path.splitext(j)[0]:
+                    os.rename(os.path.join(labels, str(j)), os.path.join(dataset_lab + "validation/" , str(j)))
+
+    count = 0
+    for i in os.listdir(original):
+        if count == dim_test:
+            break
+        random.seed(seed)
+        img_test = random.choice(os.listdir(original))
+        if os.path.splitext(img_test)[0] == os.path.splitext(i)[0]:
+            os.rename(os.path.join(original, str(i)), os.path.join(dataset_orig + "test/" , str(i)))
+            count = count + 1
+            for j in os.listdir(labels):
+                if os.path.splitext(img_test)[0] == os.path.splitext(j)[0]:
+                    os.rename(os.path.join(labels, str(j)), os.path.join(dataset_lab + "test/" , str(j)))
+                    
+    if not os.path.exists(original + "train"):
+        os.makedirs(original + "train")
+    if not os.path.exists(original + "validation"):
+        os.makedirs(original + "validation")
+    if not os.path.exists(original + "test"):
+        os.makedirs(original + "test")
+    if not os.path.exists(labels + "train"):
+        os.makedirs(labels + "train")
+    if not os.path.exists(labels + "validation"):
+        os.makedirs(labels + "validation")
+    if not os.path.exists(labels + "test"):
+        os.makedirs(labels + "test")
+        
+    for i in os.listdir(dataset_orig + 'train'):
+        shutil.move(os.path.join(dataset_orig + 'train', i), original + 'train')
+    
+    for i in os.listdir(dataset_orig + 'validation'):
+        shutil.move(os.path.join(dataset_orig + 'validation', i), original + 'validation')
+    
+    for i in os.listdir(dataset_orig + 'test'):
+        shutil.move(os.path.join(dataset_orig + 'test', i), original + 'test')
+    
+    for i in os.listdir(dataset_lab + 'train'):
+        shutil.move(os.path.join(dataset_lab + 'train', i), labels + 'train')
+    
+    for i in os.listdir(dataset_lab + 'validation'):
+        shutil.move(os.path.join(dataset_lab + 'validation', i), labels + 'validation')
+    
+    for i in os.listdir(dataset_lab + 'test'):
+        shutil.move(os.path.join(dataset_lab + 'test', i), labels + 'test')
+        
+    shutil.rmtree(dataset_orig)
+    shutil.rmtree(dataset_lab)    
+
+    print("Immagini in original/train: " + str(len([name for name in os.listdir('semantic_drone_dataset/original_images/train')])))
+    print("Immagini in original/validation: " + str(len([name for name in os.listdir('semantic_drone_dataset/original_images/validation')])))
+    print("Immagini in original/test: " + str(len([name for name in os.listdir('semantic_drone_dataset/original_images/test')])))
+    print("Immagini in labels/train: " + str(len([name for name in os.listdir('semantic_drone_dataset/label_images_semantic/train')])))
+    print("Immagini in labels/validation: " + str(len([name for name in os.listdir('semantic_drone_dataset/label_images_semantic/validation')])))
+    print("Immagini in labels/test: " + str(len([name for name in os.listdir('semantic_drone_dataset/label_images_semantic/test')])))
+
+
 def train_test_val(train_dim, val_dim, test_dim, tot):
     original = "semantic_drone_dataset/original_images/"
     labels = "semantic_drone_dataset/label_images_semantic/"
